@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import ArticlePage from "./pages/ArticlePage";
-import HomePage from "./pages/HomePage";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import ArticlePage from "./pages/articles/ArticlePage";
+import HomePage from "./pages/homepage/HomePage";
 
 export default function App() {
   return (
