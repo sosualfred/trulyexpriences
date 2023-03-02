@@ -16,7 +16,7 @@ export const headlineSlice = createSlice({
   initialState,
   reducers: {
     updateHeadlines: (state, action: PayloadAction<Article[]>) => {
-      state.headlines = action.payload;
+      state.headlines = [...state.headlines, ...action.payload];
     },
   },
 });

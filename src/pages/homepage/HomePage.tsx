@@ -2,9 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Article, fetchHeadlines } from "../../api/headlines";
+import { updateHeadlines } from "../../redux/features/headlineSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/redux-hooks";
 
 export default function HomePage() {
   const [page, setPage] = useState(1);
+  const headlines = useAppSelector((state) => state.headline.headlines);
+  const dispatch = useAppDispatch();
 
   const {
     data: articlesResponse,
@@ -21,13 +25,12 @@ export default function HomePage() {
       }),
   });
 
-  const [headlines, setHeadlines] = useState<Article[]>([]);
   const [canLoadMore, setCanLoadMore] = useState(true);
 
   useEffect(() => {
     if (isSuccess) {
       if (!isPreviousData) {
-        setHeadlines((prev) => [...prev, ...articlesResponse.articles]);
+        dispatch(updateHeadlines(articlesResponse.articles));
       }
       if (articlesResponse.articles.length === 0) {
         setCanLoadMore(false);
@@ -48,6 +51,7 @@ export default function HomePage() {
               key={idx}
               className="max-w-sm rounded overflow-hidden shadow-lg"
             >
+              {idx + 1}
               <img
                 className="w-full max-h-60"
                 src={article.urlToImage || "https://picsum.photos/200"}
