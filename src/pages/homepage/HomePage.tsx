@@ -8,7 +8,6 @@ export default function HomePage() {
 
   const {
     data: articlesResponse,
-    error,
     isFetching,
     isSuccess,
     isPreviousData,
@@ -71,7 +70,6 @@ export default function HomePage() {
           ))}
         </div>
       )}
-      {error && <div>Error</div>}
       {canLoadMore ? (
         <button
           className="h-6 bg-orange-200 rounded-md p-2 flex items-center justify-center"
