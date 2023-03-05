@@ -47,6 +47,5 @@ yarn dev
 Open the browser and go to the following address:
 
 ```
-
 http://localhost:5173
 ```
