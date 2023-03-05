@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Article, fetchHeadlines } from "../../api/headlines";
-import AppLayout from "../../components/AppLayout";
-import { setHeadlines } from "../../redux/features/headlineSlice";
-import { useAppDispatch, useAppSelector } from "../../redux/redux-hooks";
+import { Article, fetchHeadlines } from "../api/headlines";
+import AppLayout from "../components/AppLayout";
+import { setHeadlines } from "../redux/features/headlineSlice";
+import { useAppDispatch, useAppSelector } from "../redux/redux-hooks";
 
 export default function HomePage() {
   const dispatch = useAppDispatch();

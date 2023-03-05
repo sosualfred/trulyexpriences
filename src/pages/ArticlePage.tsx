@@ -1,6 +1,6 @@
 import { useHistory, useParams } from "react-router-dom";
-import AppLayout from "../../components/AppLayout";
-import { useAppSelector } from "../../redux/redux-hooks";
+import AppLayout from "../components/AppLayout";
+import { useAppSelector } from "../redux/redux-hooks";
 
 export default function ArticlePage() {
   const { id } = useParams<{ id: string }>();
