@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ArticlePage from "./pages/articles/ArticlePage";
-import HomePage from "./pages/homepage/HomePage";
+import ArticlePage from "./pages/ArticlePage";
+import HomePage from "./pages/HomePage";
+import SearchPage from "./pages/SearchPage";
 
 export default function App() {
   return (
@@ -11,6 +12,9 @@ export default function App() {
         </Route>
         <Route path="/article/:id" exact>
           <ArticlePage />
+        </Route>
+        <Route path="/search/:searchTerm" exact>
+          <SearchPage />
         </Route>
         <Route path="*">
           <div>404</div>

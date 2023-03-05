@@ -1,14 +1,17 @@
 import { useHistory, useParams } from "react-router-dom";
 import AppLayout from "../components/AppLayout";
+import { selectHeadlines } from "../redux/features/headlineSlice";
+import { selectSearchArticles } from "../redux/features/searchSlice";
 import { useAppSelector } from "../redux/redux-hooks";
 
 export default function ArticlePage() {
   const { id } = useParams<{ id: string }>();
   const { push } = useHistory();
 
-  const headlines = useAppSelector((state) => state.headline.headlines);
+  const headlines = useAppSelector(selectHeadlines);
+  const searchArticles = useAppSelector(selectSearchArticles);
 
-  const article = headlines[Number(id)];
+  const article = headlines[Number(id)] || searchArticles[Number(id)];
 
   if (!article) {
     push("/");

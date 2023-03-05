@@ -1,4 +1,17 @@
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+
 export default function Navbar() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const { push } = useHistory();
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchTerm.trim() === "") return;
+    push(`/search/${searchTerm}`);
+  };
+
   return (
     <nav className="sticky top-0 z-20 bg-orange-50 border-gray-200 px-2 sm:px-4 py-2.5 rounded">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
@@ -32,7 +45,7 @@ export default function Navbar() {
             </svg>
             <span className="sr-only">Search</span>
           </button>
-          <div className="relative hidden md:block">
+          <form className="relative hidden md:block" onSubmit={handleSearch}>
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
                 className="w-5 h-5 text-gray-500"
@@ -50,12 +63,14 @@ export default function Navbar() {
               <span className="sr-only">Search icon</span>
             </div>
             <input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               type="text"
               id="search-navbar"
               className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Search..."
             />
-          </div>
+          </form>
           <button
             data-collapse-toggle="navbar-search"
             type="button"

@@ -1,25 +1,27 @@
 import { axiosGet } from "./axios";
 import { ArticleResponse } from "./headlines";
 
+export type SortType = "publishedAt" | "popularity" | "relevancy";
+
 type SearchQuery = {
-  country?: string;
   page?: number;
-  sortBy?: "publishedAt" | "popularity" | "relevancy";
+  sortBy?: SortType;
   q: string;
+  pageSize?: number;
 };
 
 export const searchEverything = async ({
-  country = "us",
   page = 1,
   sortBy = "publishedAt",
   q,
+  pageSize = 20,
 }: SearchQuery) => {
   const response = await axiosGet(`/everything`, {
     params: {
-      country,
       page,
       sortBy,
       q,
+      pageSize,
     },
   });
 
