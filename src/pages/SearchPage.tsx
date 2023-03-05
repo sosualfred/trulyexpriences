@@ -22,7 +22,6 @@ export default function SearchPage() {
   const { searchTerm } = useParams<{ searchTerm: string }>();
 
   const { refetch, isFetching } = useQuery({
-    enabled: false,
     queryKey: ["search", searchTerm, page],
     queryFn: () =>
       searchEverything({
@@ -30,39 +29,28 @@ export default function SearchPage() {
         q: searchTerm,
         sortBy: sortBy,
       }),
+    enabled: false,
+    onSuccess(data) {
+      let currentPage = page;
+      setPage((prevPage) => prevPage + 1);
+      if (data.articles.length === 0) {
+        setCanLoadMore(false);
+        setPage(currentPage);
+      }
+      if (page === 1) {
+        dispatch(setSearchArticles(data.articles));
+      } else {
+        dispatch(setSearchArticles([...searchArticles, ...data.articles]));
+      }
+    },
   });
 
   const [canLoadMore, setCanLoadMore] = useState(true);
 
   useEffect(() => {
     setPage(1);
-    fetchQueryItem();
+    refetch();
   }, [searchTerm, sortBy]);
-
-  const fetchQueryItem = async () => {
-    dispatch(setSearchArticles([]));
-    const { data } = await refetch();
-    if (data) {
-      dispatch(setSearchArticles(data.articles));
-    }
-  };
-
-  const fetchMoreArticles = async () => {
-    let currentPage = page;
-    setPage((prevPage) => prevPage + 1);
-    const { data } = await refetch();
-    if (data) {
-      dispatch(setSearchArticles([...searchArticles, ...data.articles]));
-      if (data.articles.length === 0) {
-        setCanLoadMore(false);
-        setPage(currentPage);
-      }
-    }
-  };
-
-  const handleHeadlineClicked = (article: Article) => {
-    push(`/article/${article.title}`);
-  };
 
   return (
     <AppLayout>
@@ -94,7 +82,7 @@ export default function SearchPage() {
             className={`${
               isFetching ? "bg-orange-100" : "bg-orange-300"
             } text-xl rounded-md px-6 py-2 flex items-center justify-center`}
-            onClick={fetchMoreArticles}
+            onClick={() => refetch()}
             disabled={isFetching}
           >
             {isFetching ? "Loading..." : "Load more"}
