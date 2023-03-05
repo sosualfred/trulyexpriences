@@ -14,7 +14,7 @@ export type Article = {
   content: string | null;
 };
 
-type ArticleResponse = {
+export type ArticleResponse = {
   status: string;
   totalResults: number;
   articles: Article[];
