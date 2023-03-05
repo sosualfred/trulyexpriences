@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Article, fetchHeadlines } from "../../api/headlines";
+import AppLayout from "../../components/AppLayout";
 import { setHeadlines } from "../../redux/features/headlineSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/redux-hooks";
 
@@ -53,11 +54,10 @@ export default function HomePage() {
   };
 
   return (
-    <div className="container mx-auto h-screen">
+    <AppLayout>
       <div className="grid lg:grid-cols-4 gap-4 md:grid-cols-3 sm:grid-cols-1">
         {headlines.map((article, idx) => (
           <div key={idx} className="max-w-sm rounded overflow-hidden shadow-lg">
-            {idx + 1}
             <img
               className="w-full h-60 object-cover"
               src={article.urlToImage || "https://picsum.photos/200"}
@@ -98,6 +98,6 @@ export default function HomePage() {
           <div>No more headlines</div>
         )}
       </div>
-    </div>
+    </AppLayout>
   );
 }
