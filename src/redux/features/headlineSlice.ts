@@ -15,13 +15,13 @@ export const headlineSlice = createSlice({
   name: "headline",
   initialState,
   reducers: {
-    updateHeadlines: (state, action: PayloadAction<Article[]>) => {
-      state.headlines = [...state.headlines, ...action.payload];
+    setHeadlines: (state, action: PayloadAction<Article[]>) => {
+      state.headlines = action.payload;
     },
   },
 });
 
-export const { updateHeadlines } = headlineSlice.actions;
+export const { setHeadlines } = headlineSlice.actions;
 
 export const selectHeadlines = (state: RootState) => state.headline.headlines;
 
