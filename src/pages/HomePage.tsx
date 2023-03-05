@@ -18,35 +18,27 @@ export default function HomePage() {
       fetchHeadlines({
         page: page,
       }),
+    enabled: false,
+    onSuccess(data) {
+      let currentPage = page;
+      setPage((prevPage) => prevPage + 1);
+      if (data.articles.length === 0) {
+        setCanLoadMore(false);
+        setPage(currentPage);
+      }
+      if (page === 1) {
+        dispatch(setHeadlines(data.articles));
+      } else {
+        dispatch(setHeadlines([...headlines, ...data.articles]));
+      }
+    },
   });
 
   const [canLoadMore, setCanLoadMore] = useState(true);
 
   useEffect(() => {
-    fetchInitialHeadlines();
+    refetch();
   }, []);
-
-  const fetchInitialHeadlines = async () => {
-    if (page === 1) {
-      const { data } = await refetch();
-      if (data) {
-        dispatch(setHeadlines(data.articles));
-      }
-    }
-  };
-
-  const fetchMoreHeadlines = async () => {
-    let currentPage = page;
-    setPage((prevPage) => prevPage + 1);
-    const { data } = await refetch();
-    if (data) {
-      dispatch(setHeadlines([...headlines, ...data.articles]));
-      if (data.articles.length === 0) {
-        setCanLoadMore(false);
-        setPage(currentPage);
-      }
-    }
-  };
 
   return (
     <AppLayout>
@@ -62,7 +54,7 @@ export default function HomePage() {
             className={`${
               isFetching ? "bg-orange-100" : "bg-orange-300"
             } text-xl rounded-md px-6 py-2 flex items-center justify-center`}
-            onClick={fetchMoreHeadlines}
+            onClick={() => refetch()}
             disabled={isFetching}
           >
             {isFetching ? "Loading..." : "Load more"}
