@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { Article } from "../api/headlines";
+import { useParams } from "react-router-dom";
 import { searchEverything, SortType } from "../api/search";
 import ArticleCard from "../components/ArticleCard";
 import AppLayout from "../components/layouts/AppLayout";
@@ -13,7 +12,6 @@ import { useAppDispatch, useAppSelector } from "../redux/redux-hooks";
 
 export default function SearchPage() {
   const dispatch = useAppDispatch();
-  const { push } = useHistory();
 
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState<SortType>("publishedAt");
