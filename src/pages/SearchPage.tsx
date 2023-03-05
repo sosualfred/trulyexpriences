@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { Article } from "../api/headlines";
 import { searchEverything, SortType } from "../api/search";
-import AppLayout from "../components/AppLayout";
+import ArticleCard from "../components/ArticleCard";
+import AppLayout from "../components/layouts/AppLayout";
 import {
   selectSearchArticles,
   setSearchArticles,
@@ -58,8 +60,8 @@ export default function SearchPage() {
     }
   };
 
-  const handleHeadlineClicked = (idx: number) => {
-    push(`/article/${idx}`);
+  const handleHeadlineClicked = (article: Article) => {
+    push(`/article/${article.title}`);
   };
 
   return (
@@ -82,29 +84,7 @@ export default function SearchPage() {
 
       <div className="grid lg:grid-cols-4 gap-4 md:grid-cols-3 sm:grid-cols-1">
         {searchArticles.map((article, idx) => (
-          <div key={idx} className="max-w-sm rounded overflow-hidden shadow-lg">
-            <img
-              className="w-full h-60 object-cover"
-              src={article.urlToImage || "https://picsum.photos/200"}
-              alt="Sunset in the mountains"
-            />
-            <div className="px-6 py-4">
-              <div className="font-bold text-gray-700 mb-2 text-ellipsis line-clamp-2">
-                {article.title || "No title"}
-              </div>
-              <p className="text-gray-700 text-base text-ellipsis line-clamp-1">
-                {article.description || "No description"}
-              </p>
-            </div>
-            <div className="px-6 pt-4 pb-2">
-              <button
-                onClick={() => handleHeadlineClicked(idx)}
-                className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-              >
-                Read more
-              </button>
-            </div>
-          </div>
+          <ArticleCard key={idx} article={article} />
         ))}
       </div>
 
