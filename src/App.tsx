@@ -10,7 +10,7 @@ export default function App() {
         <Route path="/" exact>
           <HomePage />
         </Route>
-        <Route path="/article/:id" exact>
+        <Route path="/article/:title" exact>
           <ArticlePage />
         </Route>
         <Route path="/search/:searchTerm" exact>

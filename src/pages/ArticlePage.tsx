@@ -1,26 +1,44 @@
 import { useHistory, useParams } from "react-router-dom";
-import AppLayout from "../components/AppLayout";
+import AppLayout from "../components/layouts/AppLayout";
 import { selectHeadlines } from "../redux/features/headlineSlice";
 import { selectSearchArticles } from "../redux/features/searchSlice";
 import { useAppSelector } from "../redux/redux-hooks";
+import { slugify } from "../utils/slugify";
 
 export default function ArticlePage() {
-  const { id } = useParams<{ id: string }>();
+  const { title: slugTitle } = useParams<{ title: string }>();
   const { push } = useHistory();
 
   const headlines = useAppSelector(selectHeadlines);
   const searchArticles = useAppSelector(selectSearchArticles);
 
-  const article = headlines[Number(id)] || searchArticles[Number(id)];
+  const article =
+    headlines.find((article) => slugify(article.title) === slugTitle) ||
+    searchArticles.find((article) => slugify(article.title) === slugTitle);
 
   if (!article) {
-    push("/");
-    return null;
+    return (
+      <AppLayout>
+        <div className="max-w-6xl px-10 py-6 mx-auto">
+          <h1 className="text-3xl font-bold text-gray-700 text-center">
+            Article not found
+          </h1>
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={() => push("/")}
+              className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+            >
+              Go back to home
+            </button>
+          </div>
+        </div>
+      </AppLayout>
+    );
   }
 
   return (
     <AppLayout>
-      <div className="max-w-6xl px-10 py-6 mx-auto">
+      <div className="max-w-6xl px-10 py-6 mx-auto bg-gray-50">
         <a
           href="#_"
           className="block transition duration-200 ease-out transform"
