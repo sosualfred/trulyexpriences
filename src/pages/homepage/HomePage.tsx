@@ -83,16 +83,21 @@ export default function HomePage() {
         ))}
       </div>
 
-      {canLoadMore ? (
-        <button
-          className="h-6 bg-orange-200 rounded-md p-2 flex items-center justify-center"
-          onClick={fetchMoreHeadlines}
-        >
-          {isFetching ? "Loading..." : "Load more"}
-        </button>
-      ) : (
-        <div>No more headlines</div>
-      )}
+      <div className="py-10 flex items-center justify-center">
+        {canLoadMore ? (
+          <button
+            className={`${
+              isFetching ? "bg-orange-100" : "bg-orange-300"
+            } text-xl rounded-md px-6 py-2 flex items-center justify-center`}
+            onClick={fetchMoreHeadlines}
+            disabled={isFetching}
+          >
+            {isFetching ? "Loading..." : "Load more"}
+          </button>
+        ) : (
+          <div>No more headlines</div>
+        )}
+      </div>
     </div>
   );
 }
