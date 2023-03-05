@@ -1,14 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { fetchHeadlines } from "../../api/headlines";
+import { useHistory } from "react-router-dom";
+import { Article, fetchHeadlines } from "../../api/headlines";
 import { setHeadlines } from "../../redux/features/headlineSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/redux-hooks";
 
 export default function HomePage() {
+  const dispatch = useAppDispatch();
+  const { push } = useHistory();
+
   const [page, setPage] = useState(1);
   const headlines = useAppSelector((state) => state.headline.headlines);
-  const dispatch = useAppDispatch();
 
   const { refetch, isFetching } = useQuery({
     queryKey: ["headlines", page],
@@ -46,6 +48,10 @@ export default function HomePage() {
     }
   };
 
+  const handleHeadlineClicked = (idx: number, article: Article) => {
+    push(`/article/${idx}`);
+  };
+
   return (
     <div className="container mx-auto h-screen">
       <div className="grid lg:grid-cols-4 gap-4 md:grid-cols-3 sm:grid-cols-1">
@@ -66,11 +72,12 @@ export default function HomePage() {
               </p>
             </div>
             <div className="px-6 pt-4 pb-2">
-              <Link to={`/article/${article.title}`}>
-                <button className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                  Read more
-                </button>
-              </Link>
+              <button
+                onClick={() => handleHeadlineClicked(idx, article)}
+                className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+              >
+                Read more
+              </button>
             </div>
           </div>
         ))}
